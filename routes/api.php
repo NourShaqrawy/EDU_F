@@ -92,3 +92,4 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/videos/{video}/exercises', [ExerciseController::class, 'getExercisesByVideo']);
     });
 });
+    
