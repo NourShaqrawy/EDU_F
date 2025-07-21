@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('publisher_id')->constrained('users')->cascadeOnDelete();
             $table->string('title');
             $table->text('description')->nullable();
+              $table->binary('image_data')->nullable();
             $table->timestamps();
         });
     }

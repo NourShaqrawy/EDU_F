@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Exercise extends Model
 {
+    protected $fillable=['pause_time'];
+    protected $casts = [
+    'content' => 'array'
+];
     public function video()
     {
         return $this->belongsTo(Video::class,'video_id');
