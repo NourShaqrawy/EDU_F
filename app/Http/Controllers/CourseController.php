@@ -12,7 +12,7 @@ class CourseController extends Controller
     
     public function index()
     {
-        $courses = Course::with(['videos', 'enrollments', 'certificates'])->get();
+        $courses = Course::select('id','title',"publisher_id")->get();
         return response()->json($courses);
     }
 
@@ -35,7 +35,7 @@ class CourseController extends Controller
  
     public function show($id)
     {
-        $course = Course::with(['videos', 'enrollments', 'certificates'])->findOrFail($id);
+        $course = Course::with(['videos'])->findOrFail($id);
         return response()->json($course);
     }
 

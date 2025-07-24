@@ -21,8 +21,5 @@ class Course extends Model
     {
         return $this->hasMany(Video::class, 'course_id');
     }
-    public function enrolledStudents()
-    {
-        return $this->belongsToMany(User::class, 'course_enrollments', 'course_id', 'student_id')->withTimestamps();
-    }
+   
 }
