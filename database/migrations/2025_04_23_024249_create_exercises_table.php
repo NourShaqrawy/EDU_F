@@ -11,17 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exercises', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('video_id')->unique()->constrained('videos')->cascadeOnDelete();
-            $table->integer('pause_time');
-            $table->integer('display_duration');
-            // $table->text('content')->nullable();
-            // $table->enum('question_type', ['multiple_choice', 'true_false'])->after('video_id');
-            // تحويل حقل content إلى json لتخزين الخيارات والإجابة الصحيحة
-            $table->json('content')->nullable()->change();
-            $table->timestamps();
-        });
+       Schema::create('exercises', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('video_id')->constrained('videos')->cascadeOnDelete();
+    $table->enum('question_type', ['multiple_choice', 'true_false']);
+    $table->json('content')->nullable();
+    $table->integer('pause_time');
+    $table->integer('display_duration');
+    $table->timestamps();
+});
+
     }
 
     /**
