@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterUserSeeder extends Seeder
 {
@@ -14,28 +13,29 @@ class RegisterUserSeeder extends Seeder
      */
     public function run(): void
     {
-         User::create([
-            'user_name' => 'admin',
-            'email' => 'nour@gmail.com',
-            'password' => bcrypt('password123'),
-            'role'=>'admin',
+        $users = [
+            [
+                'user_name' => 'admin',
+                'email' => 'nour@gmail.com',
+                'password' => Hash::make('12345678'),
+                'role' => 'admin',
+            ],
+            [
+                'user_name' => 'publisher',
+                'email' => 'mohammed@gmail.com',
+                'password' => Hash::make('12345678'),
+                'role' => 'publisher',
+            ],
+            [
+                'user_name' => 'student',
+                'email' => 'enas@gmail.com',
+                'password' => Hash::make('12345678'),
+                'role' => 'student',
+            ],
+        ];
 
-        ]);
-
-        User::create([
-            'user_name' => 'publisher',
-            'email' => 'mohammed@gmail.com',
-            'password' => bcrypt('12345678'),
-            'role'=>'publisher',
-
-        ]);
-
-        User::create([
-            'user_name' => 'student',
-            'email' => 'enas@gmail.com',
-            'password' => bcrypt('12345678'),
-            'role'=>'student',
-
-        ]);
+        foreach ($users as $user) {
+            User::create($user);
+        }
     }
 }
