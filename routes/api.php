@@ -129,3 +129,4 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
     });
 });
+// powerd by nour
