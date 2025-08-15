@@ -87,6 +87,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseImageController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -130,3 +131,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 });
 // powerd by nour
+
+
+Route::apiResource('users', UserController::class);
