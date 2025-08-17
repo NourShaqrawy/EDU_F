@@ -10,6 +10,11 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+    public $apikey;
+    public function __construct() {
+       
+        $this->apikey =env('GOOGLE_API_KEY');
+    }
     // عرض جميع المستخدمين
     public function index()
     {
@@ -85,4 +90,5 @@ public function update(Request $request, $id)
 
         return response()->json(['message' => 'User deleted successfully']);
     }
+    
 }

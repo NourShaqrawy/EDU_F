@@ -134,3 +134,29 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 Route::apiResource('users', UserController::class);
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+Route::post('/gemini', function (Request $request)
+{
+    $prompt = $request->input('prompt');
+
+    $response = Http::post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . config('services.gemini.key'), [
+        'contents' => [
+            ['parts' => [['text' => $prompt]]]
+        ]
+    ]);
+
+    if ($response->successful()) {
+        $data = $response->json();
+        return response()->json([
+            'reply' => $data['candidates'][0]['content']['parts'][0]['text'] ?? 'لا يوجد رد من النموذج'
+        ]);
+    } else {
+        return response()->json([
+            'error' => 'فشل الاتصال بـ Gemini API',
+            'details' => $response->body()
+        ], $response->status());
+    }
+});
+
+
