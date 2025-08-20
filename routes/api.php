@@ -134,10 +134,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 Route::apiResource('users', UserController::class);
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-Route::post('/gemini', function (Request $request)
-{
+
+Route::post('/gemini', function (Request $request) {
     $prompt = $request->input('prompt');
 
     $response = Http::post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . config('services.gemini.key'), [
@@ -159,4 +160,10 @@ Route::post('/gemini', function (Request $request)
     }
 });
 
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill(); // يفعّل البريد
+
+    return response()->json(['message' => 'تم التحقق من البريد الإلكتروني.']);
+})->middleware(['auth:sanctum', 'signed'])->name('verification.verify');

@@ -31,6 +31,13 @@ public function register(Request $request) {
         'message' => 'User registered successfully',
         'user' => $user
     ], 201);
+
+    event(new Registered($user));
+
+    return response()->json(['message' => 'تم التسجيل، تحقق من بريدك الإلكتروني.']);
+}
+
+    
 }
 
 public function login(Request $request) {
