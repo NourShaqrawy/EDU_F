@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Events\Registered;
+
 
 class AuthController extends Controller
 {
@@ -27,18 +29,15 @@ public function register(Request $request) {
         'role' => $request->role
     ]);
 
+    event(new Registered($user)); // ✅ الآن سيتم تنفيذ الحدث
+
     return response()->json([
-        'message' => 'User registered successfully',
+        'message' => 'تم التسجيل، تحقق من بريدك الإلكتروني.',
         'user' => $user
     ], 201);
-
-    event(new Registered($user));
-
-    return response()->json(['message' => 'تم التسجيل، تحقق من بريدك الإلكتروني.']);
 }
 
-    
-}
+
 
 public function login(Request $request) {
     $request->validate([
