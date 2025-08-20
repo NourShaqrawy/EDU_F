@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>eng.Nour Shaqrawy</title>
+  <title>Document</title>
   <style>
     body {
       margin: 0;
@@ -22,6 +22,6 @@
   </style>
 </head>
 <body>
-  <img src="{{ asset('image/nourlogo.jpg') }}" alt="صورة">
+    <img src="" alt="">
 </body>
 </html>
