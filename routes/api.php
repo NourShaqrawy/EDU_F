@@ -160,10 +160,3 @@ Route::post('/gemini', function (Request $request) {
     }
 });
 
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill(); // يفعّل البريد
-
-    return response()->json(['message' => 'تم التحقق من البريد الإلكتروني.']);
-})->middleware(['auth:sanctum', 'signed'])->name('verification.verify');

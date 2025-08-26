@@ -1,21 +1,12 @@
 <?php
 return [
-
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
-
-    'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-
-    'allowed_origins' => ['https://edu-f.onrender.com'],
-
+    'paths' => ['api/*', '*'],
+    'allowed_methods' => ['*'],
+    'allowed_origins' => ['*'], // يسمح بكل النطاقات والبورتات
     'allowed_origins_patterns' => [],
-
-    'allowed_headers' => ['Content-Type', 'Authorization', 'X-XSRF-TOKEN'],
-
+    'allowed_headers' => ['*'],
     'exposed_headers' => [],
-
     'max_age' => 0,
-
-    'supports_credentials' => true,
-
+    'supports_credentials' => false,
 ];
 

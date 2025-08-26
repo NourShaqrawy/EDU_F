@@ -11,10 +11,7 @@ use Illuminate\Validation\Rule;
 class UserController extends Controller
 {
     public $apikey;
-    public function __construct() {
-       
-        $this->apikey =env('GOOGLE_API_KEY');
-    }
+    
     // عرض جميع المستخدمين
     public function index()
     {
@@ -31,25 +28,25 @@ class UserController extends Controller
 
     // إنشاء مستخدم جديد
     
-public function store(Request $request)
-{
-    $data = $request->validate([
-        'user_name' => 'required|string|max:150',
-        'email' => 'required|email|max:100|unique:users,email',
-        'address' => 'nullable|string|max:200',
-        'role' => ['required', Rule::in(['student', 'publisher', 'admin'])],
-        'password' => 'required|string|min:6',
-        'language' => 'required|string|max:10',
-        'dark_mode' => 'boolean',
-    ]);
+// public function store(Request $request)
+// {
+//     $data = $request->validate([
+//         'user_name' => 'required|string|max:150',
+//         'email' => 'required|email|max:100|unique:users,email',
+//         'address' => 'nullable|string|max:200',
+//         'role' => ['required', Rule::in(['student', 'publisher', 'admin'])],
+//         'password' => 'required|string|min:6',
+//         'language' => 'required|string|max:10',
+//         'dark_mode' => 'boolean',
+//     ]);
 
-    $data['password'] = Hash::make($data['password']);
-    $data['dark_mode'] = (bool) ($data['dark_mode'] ?? false);
+//     $data['password'] = Hash::make($data['password']);
+//     $data['dark_mode'] = (bool) ($data['dark_mode'] ?? false);
 
-    $user = User::create($data);
+//     $user = User::create($data);
 
-    return response()->json($user, 201);
-}
+//     return response()->json($user, 201);
+// }
 
     // تحديث مستخدم
    

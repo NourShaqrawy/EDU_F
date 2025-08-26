@@ -29,10 +29,10 @@ public function register(Request $request) {
         'role' => $request->role
     ]);
 
-    event(new Registered($user)); // ✅ الآن سيتم تنفيذ الحدث
+    
 
     return response()->json([
-        'message' => 'تم التسجيل، تحقق من بريدك الإلكتروني.',
+        'message' => 'تم التسجيل،.',
         'user' => $user
     ], 201);
 }
