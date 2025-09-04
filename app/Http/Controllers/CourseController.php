@@ -2,19 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
 {
     
-    public function index()
-    {
-        $courses = Course::select('id','title',"publisher_id")->get();
-        return response()->json($courses);
-    }
+  public function index()
+{
+    // تحميل الكورسات مع علاقة الناشر لتجنب N+1
+    $courses = Course::with('publisher')->get();
+
+    // تحويل كل كورس إلى مصفوفة منظمة
+    $formattedCourses = $courses->map(function ($course) {
+        return [
+            'id' => $course->id,
+            'category_id' => $course->category_id,
+            'title' => $course->title,
+            'description' => $course->description,
+            'publisher_name' => $course->publisher->user_name ?? 'غير معروف',
+        ];
+    });
+
+    return response()->json($formattedCourses, 200);
+}
+
 
     
     public function store(Request $request)
@@ -33,11 +48,19 @@ class CourseController extends Controller
     return response()->json($course, 201);
 }
  
-    public function show($id)
-    {
-        $course = Course::with(['videos'])->findOrFail($id);
-        return response()->json($course);
-    }
+   public function show($id)
+{
+    $course = Course::with(['videos', 'publisher'])->findOrFail($id);
+
+    return response()->json([
+        'id' => $course->id,
+        'category_id'=>$course->category_id,
+        'title' => $course->title,
+        'description' => $course->description,
+        'publisher_name' => $course->publisher->user_name ?? 'غير معروف',
+        'videos' => $course->videos,
+    ], 200);
+}
 
     
     public function update(Request $request, $id)

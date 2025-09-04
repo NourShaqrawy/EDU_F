@@ -91,9 +91,16 @@ use App\Http\Controllers\UserController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/courses', [CourseController::class, 'index']);
+Route::get('/courses/{id}', [CourseController::class, 'show']);
+    Route::get('/courses/{id}/image', [CourseImageController::class, 'show']);
+    Route::get('/courses/{id}/image', [CourseImageController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+     Route::put('/users/{id}', [UserController::class, 'update']);
+      Route::get('/users/{id}', [UserController::class, 'show']); 
 
     Route::get('/courses', [CourseController::class, 'index']);
     Route::get('/courses/{id}', [CourseController::class, 'show']);
@@ -122,6 +129,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     Route::middleware('role:admin')->group(function () {
+          Route::get('/users', [UserController::class, 'index']);  
 
         Route::post('/categories', [CategoryController::class, 'store']);
         Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
@@ -131,32 +139,3 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 });
 // powerd by nour
-
-
-Route::apiResource('users', UserController::class);
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-
-Route::post('/gemini', function (Request $request) {
-    $prompt = $request->input('prompt');
-
-    $response = Http::post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . config('services.gemini.key'), [
-        'contents' => [
-            ['parts' => [['text' => $prompt]]]
-        ]
-    ]);
-
-    if ($response->successful()) {
-        $data = $response->json();
-        return response()->json([
-            'reply' => $data['candidates'][0]['content']['parts'][0]['text'] ?? 'لا يوجد رد من النموذج'
-        ]);
-    } else {
-        return response()->json([
-            'error' => 'فشل الاتصال بـ Gemini API',
-            'details' => $response->body()
-        ], $response->status());
-    }
-});
-
