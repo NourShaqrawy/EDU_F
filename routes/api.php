@@ -95,17 +95,16 @@ Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/courses', [CourseController::class, 'index']);
 Route::get('/courses/{id}', [CourseController::class, 'show']);
     Route::get('/courses/{id}/image', [CourseImageController::class, 'show']);
-    Route::get('/courses/{id}/image', [CourseImageController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
      Route::put('/users/{id}', [UserController::class, 'update']);
       Route::get('/users/{id}', [UserController::class, 'show']); 
 
-    Route::get('/courses', [CourseController::class, 'index']);
-    Route::get('/courses/{id}', [CourseController::class, 'show']);
-    Route::get('/courses/{id}/image', [CourseImageController::class, 'show']);
-    Route::get('/categories', [CategoryController::class, 'index']);
+    // Route::get('/courses', [CourseController::class, 'index']);
+    // Route::get('/courses/{id}', [CourseController::class, 'show']);
+    // Route::get('/courses/{id}/image', [CourseImageController::class, 'show']);
+    // Route::get('/categories', [CategoryController::class, 'index']);
     Route::get('/categories/{id}', [CategoryController::class, 'show']);
     Route::get('/courses/{course}/videos', [VideoController::class, 'index']);
     Route::get('/videos/{video}', [VideoController::class, 'show']);
