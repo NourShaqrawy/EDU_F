@@ -27,10 +27,13 @@ public function register(Request $request) {
         'password' => Hash::make($request->password),
         'role' => $request->role
     ]);
+     $token = $user->createToken('authToken')->plainTextToken;
+
 
     
 
     return response()->json([
+       'token'=>$token,
         'message' => 'تم التسجيل،.',
         'user' => $user
     ], 201);
