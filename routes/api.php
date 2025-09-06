@@ -133,6 +133,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/categories', [CategoryController::class, 'store']);
         Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
 
+         Route::delete('/users/{id}', [UserController::class, 'destroy']); 
 
         Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
     });
