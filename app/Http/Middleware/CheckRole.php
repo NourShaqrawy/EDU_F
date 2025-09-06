@@ -30,14 +30,18 @@ class CheckRole
         return $next($request);
     }
 
-    protected function checkUserRole($user, $requiredRole)
-    {
-       
-        if ($user->role === 'admin') {
-            return true;
-        }
-
-       
-        return $user->role === $requiredRole;
+  protected function checkUserRole($user, $requiredRole)
+{
+    // السماح دائماً للمشرف
+    if ($user->role === 'admin') {
+        return true;
     }
+
+    // تقسيم الأدوار المسموحة
+    $roles = explode('|', $requiredRole);
+
+    // التحقق من وجود دور المستخدم ضمن الأدوار المسموحة
+    return in_array($user->role, $roles);
+}
+
 }
