@@ -12,58 +12,65 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
 
-   // app/Http/Controllers/AuthController.php
-public function register(Request $request) {
-    $request->validate([
-        'user_name' => 'required|unique:users',
-        'email' => 'required|email|unique:users',
-        'password' => 'required|min:8',
-        'role' => 'required|in:admin,publisher,student'
-    ]);
+    // app/Http/Controllers/AuthController.php
+    public function register(Request $request)
+    {
+        $request->validate([
+            'user_name' => 'required|unique:users',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
+            'role' => 'required|in:admin,publisher,student'
+        ]);
 
-    $user = User::create([
-        'user_name' => $request->user_name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-        'role' => $request->role
-    ]);
-     $token = $user->createToken('authToken')->plainTextToken;
+        $user = User::create([
+            'user_name' => $request->user_name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
 
+        ]);
+        $token = $user->createToken('authToken')->plainTextToken;
 
-    
-
-    return response()->json([
-       'token'=>$token,
-        'message' => 'تم التسجيل،.',
-        'user' => $user
-    ], 201);
-}
+        $user->refresh();
 
 
-
-public function login(Request $request) {
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required'
-    ]);
-
-    if (!Auth::attempt($request->only('email', 'password'))) {
-        return response()->json(['message' => 'Invalid credentials'], 401);
+        return response()->json([
+            'token' => $token,
+            'message' => 'تم التسجيل،.',
+            'user' => $user,
+            'darK_mode' => $user->dark_mode,
+            'language' => $user->language
+        ], 201);
     }
 
-    $user = $request->user();
-    $token = $user->createToken('authToken')->plainTextToken;
 
-    return response()->json([
-        'token' => $token,
-        'user' => [
-            'id' => $user->id,
-            'name' => $user->user_name,
-            'email' => $user->email,
-            'role' => $user->role
-        ]
-    ]);
-}
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
+
+        $user = $request->user();
+        $token = $user->createToken('authToken')->plainTextToken;
+        $user->refresh();
+        return response()->json([
+            'token' => $token,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->user_name,
+                'email' => $user->email,
+                'role' => $user->role,
+                'darK_mode' => $user->dark_mode,
+                'language' => $user->language
+            ]
+        ]);
+    }
 
     public function user(Request $request)
     {
@@ -71,21 +78,21 @@ public function login(Request $request) {
     }
 
 
-  public function logout(Request $request)
-{
-    try {
-       
-        $request->user()->tokens()->delete();
-        
-        return response()->json([
-            'message' => 'تم تسجيل الخروج بنجاح',
-            'success' => true
-        ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'message' => 'فشل تسجيل الخروج',
-            'error' => $e->getMessage()
-        ], 500);
+    public function logout(Request $request)
+    {
+        try {
+
+            $request->user()->tokens()->delete();
+
+            return response()->json([
+                'message' => 'تم تسجيل الخروج بنجاح',
+                'success' => true
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'فشل تسجيل الخروج',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
-}
 }

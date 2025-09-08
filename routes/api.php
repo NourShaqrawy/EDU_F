@@ -138,4 +138,17 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
     });
 });
+// use App\Http\Controllers\ExamController;
+
+// Route::apiResource('exams', ExamController::class);
+// Route::get('videos/{video}/exam', [ExamController::class, 'byVideo']);
+
+// use App\Http\Controllers\QuestionController;
+
+// Route::get('/exams/{exam}/questions', [QuestionController::class, 'index']);
+// Route::post('/questions', [QuestionController::class, 'store']);
+// Route::get('/questions/{id}', [QuestionController::class, 'show']);
+// Route::put('/questions/{id}', [QuestionController::class, 'update']);
+// Route::delete('/questions/{id}', [QuestionController::class, 'destroy']);
+
 // powerd by nour
