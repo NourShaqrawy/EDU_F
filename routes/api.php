@@ -88,6 +88,7 @@ use App\Http\Controllers\CourseImageController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\QuestionController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -150,5 +151,23 @@ Route::middleware('auth:sanctum')->group(function () {
 // Route::get('/questions/{id}', [QuestionController::class, 'show']);
 // Route::put('/questions/{id}', [QuestionController::class, 'update']);
 // Route::delete('/questions/{id}', [QuestionController::class, 'destroy']);
+
+
+
+
+Route::get('/questions', [QuestionController::class, 'index']);
+
+
+Route::get('/questions/{id}', [QuestionController::class, 'show']);
+
+
+Route::post('/questions', [QuestionController::class, 'store']);
+
+
+Route::put('/questions/{id}', [QuestionController::class, 'update']);
+
+
+Route::delete('/questions/{id}', [QuestionController::class, 'destroy']);
+
 
 // powerd by nour

@@ -21,4 +21,13 @@ class Video extends Model
     {
         return $this->hasMany(Video_Reactions::class,'video_id');
     }
+    public function exam() {
+    return $this->hasOne(Exam::class);
+}
+public function question()
+{
+    return $this->hasOne(Question::class);
+}
+
+
 }
