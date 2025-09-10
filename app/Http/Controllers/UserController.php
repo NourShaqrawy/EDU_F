@@ -32,23 +32,24 @@ public function update(Request $request, $id)
         return response()->json(['error' => 'Unauthorized'], 403);
     }
 
-    // تحقق من صحة البيانات المدخلة
+    // تحقق من صحة البيانات المدخلة (بشكل اختياري لكل حقل)
     $validated = $request->validate([
-        'user_name' => 'required|string|max:255',
-        'email'     => 'required|email|max:255',
-        'password'  => 'nullable|string|min:8',
-        'dark_mode' => 'nullable|boolean',
-        'language'  => 'required|in:ar,en',
+        'user_name' => 'sometimes|required|string|max:255',
+        'email'     => 'sometimes|required|email|max:255',
+        'password'  => 'sometimes|nullable|string|min:8',
+        'dark_mode' => 'sometimes|boolean',
+        'language'  => 'sometimes|required|in:ar,en',
     ]);
 
     // جلب المستخدم
     $user = User::findOrFail($id);
 
-    // تحديث البيانات (مع تشفير كلمة المرور إن وُجدت)
+    // تشفير كلمة المرور إن وُجدت
     if (isset($validated['password'])) {
         $validated['password'] = bcrypt($validated['password']);
     }
 
+    // تحديث البيانات المدخلة فقط
     $user->update($validated);
 
     return response()->json([
@@ -56,7 +57,6 @@ public function update(Request $request, $id)
         'user'    => $user
     ]);
 }
-
 
 
 
