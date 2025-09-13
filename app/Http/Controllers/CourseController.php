@@ -24,6 +24,7 @@ class CourseController extends Controller
             'title' => $course->title,
             'description' => $course->description,
             'publisher_name' => $course->publisher->user_name ?? 'غير معروف',
+            'publisher_id' => $course->publisher->id ?? 'غير معروف',
         ];
     });
 
