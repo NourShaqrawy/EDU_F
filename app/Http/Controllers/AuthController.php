@@ -79,20 +79,21 @@ class AuthController extends Controller
 
 
     public function logout(Request $request)
-    {
-        try {
+{
+    try {
+        // حذف التوكن الحالي فقط
+        $request->user()->currentAccessToken()->delete();
 
-            $request->user()->tokens()->delete();
-
-            return response()->json([
-                'message' => 'تم تسجيل الخروج بنجاح',
-                'success' => true
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'فشل تسجيل الخروج',
-                'error' => $e->getMessage()
-            ], 500);
-        }
+        return response()->json([
+            'message' => 'تم تسجيل الخروج بنجاح',
+            'success' => true
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'فشل تسجيل الخروج',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
+
 }
