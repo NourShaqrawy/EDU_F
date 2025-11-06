@@ -8,17 +8,23 @@ use Illuminate\Http\Request;
 
 class VideoController extends Controller
 {
-    /**
-     * Display a listing of the videos for a specific course.
-     */
-    public function index($courseId)
-    {
-        $videos = Video::where('course_id', $courseId)
-                      ->orderBy('video_order')
-                      ->get();
+    
+  public function index($courseId)
+{
+    $videos = Video::where('course_id', $courseId)
+                   ->with('course') // يجلب بيانات الكورس المرتبط
+                   ->orderBy('video_order')
+                   ->get();
 
-        return response()->json($videos);
-    }
+    // استخراج publisher_id من أول فيديو (لأن كل الفيديوهات لها نفس course_id)
+    $publisherId = optional($videos->first()->course)->publisher_id;
+
+    return response()->json([
+        'publisher_id' => $publisherId,
+        'videos' => $videos,
+    ]);
+}
+
 
     /**
      * Store a newly created video in storage.
@@ -42,11 +48,20 @@ class VideoController extends Controller
     /**
      * Display the specified video.
      */
-    public function show($id)
-    {
-        $video = Video::findOrFail($id);
-        return response()->json($video);
-    }
+   public function show($id)
+{
+    $video = Video::with('course')->findOrFail($id);
+
+    return response()->json([
+        'id' => $video->id,
+        'title' => $video->title,
+        'video_order' => $video->video_order,
+        'course_id' => $video->course_id,
+        'publisher_id' => optional($video->course)->publisher_id,
+        // أضف أي حقول أخرى تريدها من الفيديو
+    ]);
+}
+
 
     /**
      * Update the specified video in storage.

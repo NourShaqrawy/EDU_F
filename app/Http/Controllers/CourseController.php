@@ -13,10 +13,10 @@ class CourseController extends Controller
     
   public function index()
 {
-    // تحميل الكورسات مع علاقة الناشر لتجنب N+1
+   
     $courses = Course::with('publisher')->get();
 
-    // تحويل كل كورس إلى مصفوفة منظمة
+    
     $formattedCourses = $courses->map(function ($course) {
         return [
             'id' => $course->id,
