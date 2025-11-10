@@ -67,45 +67,95 @@ class AuthController extends Controller
             ]
         ]);
     }
+    // public function verifyOtp(Request $request)
+    // {
+    //     $request->validate([
+    //         'user_name' => 'required|unique:users',
+    //         'email' => 'required|email|unique:users',
+    //         'password' => 'required|min:8',
+    //         'role' => 'required|in:admin,publisher,student',
+    //         'otp' => 'required|string'
+    //     ]);
+
+    //     $record = DB::table('email_otps')
+    //         ->where('email', $request->email)
+    //         ->where('otp', $request->otp)
+    //         ->where('expires_at', '>', now())
+    //         ->first();
+
+    //     if (!$record) {
+    //         return response()->json(['message' => 'رمز التحقق غير صالح أو منتهي الصلاحية'], 422);
+    //     }
+
+    //     $user = User::create([
+    //         'user_name' => $request->user_name,
+    //         'email' => $request->email,
+    //         'password' => Hash::make($request->password),
+    //         'role' => $request->role,
+    //     ]);
+
+    //     DB::table('email_otps')->where('email', $request->email)->delete();
+
+    //     $token = $user->createToken('authToken')->plainTextToken;
+
+    //     return response()->json([
+    //         'token' => $token,
+    //         'message' => 'تم التحقق من البريد وإنشاء الحساب بنجاح.',
+    //         'user' => $user,
+    //         'dark_mode' => $user->dark_mode,
+    //         'language' => $user->language
+    //     ], 201);
+    // }
+
+    
     public function verifyOtp(Request $request)
-    {
-        $request->validate([
-            'user_name' => 'required|unique:users',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8',
-            'role' => 'required|in:admin,publisher,student',
-            'otp' => 'required|string'
-        ]);
+{
+    $request->validate([
+        'user_name' => 'required|unique:users',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|min:8',
+        'role' => 'required|in:admin,publisher,student',
+        'otp' => 'required|string'
+    ]);
 
-        $record = DB::table('email_otps')
-            ->where('email', $request->email)
-            ->where('otp', $request->otp)
-            ->where('expires_at', '>', now())
-            ->first();
+    // رمز تحقق افتراضي للتطوير فقط
+    $devOtp = '000000';
+    $isDevMode = app()->environment('local') || config('app.debug');
 
-        if (!$record) {
-            return response()->json(['message' => 'رمز التحقق غير صالح أو منتهي الصلاحية'], 422);
-        }
+    $record = DB::table('email_otps')
+        ->where('email', $request->email)
+        ->where(function ($query) use ($request, $devOtp, $isDevMode) {
+            $query->where('otp', $request->otp);
+            if ($isDevMode && $request->otp === $devOtp) {
+                $query->orWhere('otp', $devOtp);
+            }
+        })
+        ->where('expires_at', '>', now())
+        ->first();
 
-        $user = User::create([
-            'user_name' => $request->user_name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-        ]);
-
-        DB::table('email_otps')->where('email', $request->email)->delete();
-
-        $token = $user->createToken('authToken')->plainTextToken;
-
-        return response()->json([
-            'token' => $token,
-            'message' => 'تم التحقق من البريد وإنشاء الحساب بنجاح.',
-            'user' => $user,
-            'dark_mode' => $user->dark_mode,
-            'language' => $user->language
-        ], 201);
+    if (!$record && !($isDevMode && $request->otp === $devOtp)) {
+        return response()->json(['message' => 'رمز التحقق غير صالح أو منتهي الصلاحية'], 422);
     }
+
+    $user = User::create([
+        'user_name' => $request->user_name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role' => $request->role,
+    ]);
+
+    DB::table('email_otps')->where('email', $request->email)->delete();
+
+    $token = $user->createToken('authToken')->plainTextToken;
+
+    return response()->json([
+        'token' => $token,
+        'message' => 'تم التحقق من البريد وإنشاء الحساب بنجاح.',
+        'user' => $user,
+        'dark_mode' => $user->dark_mode,
+        'language' => $user->language
+    ], 201);
+}
 
 
     public function user(Request $request)
