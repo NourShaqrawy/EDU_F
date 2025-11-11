@@ -169,7 +169,7 @@ Route::put('/questions/{id}', [QuestionController::class, 'update']);
 
 Route::delete('/questions/{id}', [QuestionController::class, 'destroy']);
 
-Route::post('/auth/verify-otp', [AuthController::class, 'verifyOtp']);
+Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
 
 
 // powerd by nour
