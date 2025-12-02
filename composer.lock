@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "242305199bb8697827892fa2933216f1",
+    "content-hash": "a9d3956f3f8868c6589a864b9895607d",
     "packages": [
         {
             "name": "brick/math",
@@ -706,16 +706,16 @@
         },
         {
             "name": "google/cloud-ai-platform",
-            "version": "v1.45.0",
+            "version": "v1.43.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-cloud-php-ai-platform.git",
-                "reference": "af923fc630d0dee4dc11b1b8c5b9c4a54e891904"
+                "reference": "9da2ae99d71cef2454ee568c3ef477a612911f11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-ai-platform/zipball/af923fc630d0dee4dc11b1b8c5b9c4a54e891904",
-                "reference": "af923fc630d0dee4dc11b1b8c5b9c4a54e891904",
+                "url": "https://api.github.com/repos/googleapis/google-cloud-php-ai-platform/zipball/9da2ae99d71cef2454ee568c3ef477a612911f11",
+                "reference": "9da2ae99d71cef2454ee568c3ef477a612911f11",
                 "shasum": ""
             },
             "require": {
@@ -750,9 +750,9 @@
             ],
             "description": "Google Cloud Ai Platform Client for PHP",
             "support": {
-                "source": "https://github.com/googleapis/google-cloud-php-ai-platform/tree/v1.45.0"
+                "source": "https://github.com/googleapis/google-cloud-php-ai-platform/tree/v1.43.0"
             },
-            "time": "2025-11-20T23:31:53+00:00"
+            "time": "2025-10-25T01:16:28+00:00"
         },
         {
             "name": "google/common-protos",

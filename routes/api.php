@@ -152,7 +152,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
-Route::post('/auth/verify-otp', [AuthController::class, 'verifyOtp']);
+Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
 
 
 // powerd by nour

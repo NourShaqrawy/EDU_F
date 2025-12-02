@@ -10,7 +10,9 @@
         "google/cloud-ai-platform": "^1.34",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.1",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "symfony/mailer": "*",
+        "symfony/mime": "*"
     },
     "require-dev": {
         "beyondcode/laravel-er-diagram-generator": "^5.0",
