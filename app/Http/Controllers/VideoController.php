@@ -12,7 +12,7 @@ class VideoController extends Controller
   public function index($courseId)
 {
     $videos = Video::where('course_id', $courseId)
-                   ->with('course') // يجلب بيانات الكورس المرتبط
+                   ->with('course') 
                    ->orderBy('video_order')
                    ->get();
 

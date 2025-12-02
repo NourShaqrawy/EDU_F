@@ -95,7 +95,6 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/courses', [CourseController::class, 'index']);
 Route::get('/courses/{id}', [CourseController::class, 'show']);
-    Route::get('/courses/{id}/image', [CourseImageController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -114,8 +113,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('/courses', [CourseController::class, 'store']);
         Route::put('/courses/{id}', [CourseController::class, 'update']);
-        Route::post('/courses/{id}/image', [CourseImageController::class, 'storeOrUpdate']);
-        Route::delete('/courses/{id}/image', [CourseImageController::class, 'destroy']);
 
         Route::prefix('courses/{course}/videos')->group(function () {
             Route::post('/', [VideoController::class, 'store']);
@@ -154,20 +151,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
-
-Route::get('/questions', [QuestionController::class, 'index']);
-
-
-Route::get('/questions/{id}', [QuestionController::class, 'show']);
-
-
-Route::post('/questions', [QuestionController::class, 'store']);
-
-
-Route::put('/questions/{id}', [QuestionController::class, 'update']);
-
-
-Route::delete('/questions/{id}', [QuestionController::class, 'destroy']);
 
 Route::post('/auth/verify-otp', [AuthController::class, 'verifyOtp']);
 
